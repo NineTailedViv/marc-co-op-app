@@ -1,0 +1,2447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Marc // Co-Op File</title>
+
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    color: #17202a;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e8edf2 0%,
+            #f6f8fa 50%,
+            #ffffff 100%
+        );
+
+    overflow: hidden;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+
+/* =========================================================
+   BACKGROUND GRID
+========================================================= */
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: .32;
+
+    background-image:
+        linear-gradient(
+            #c7ced5 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            #c7ced5 1px,
+            transparent 1px
+        );
+
+    background-size: 40px 40px;
+
+    z-index: -2;
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app {
+
+    width: 100vw;
+
+    height: 100vh;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topBar {
+
+    flex-shrink: 0;
+
+    height: 65px;
+
+    background:
+        rgba(20, 27, 35, .97);
+
+    color: white;
+
+    border-bottom:
+        4px solid #aeb8c2;
+
+    display: flex;
+
+    align-items: center;
+
+    padding:
+        0 6%;
+
+    z-index: 100;
+}
+
+.topBarInner {
+
+    width: 100%;
+
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+.logo {
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+.logo span {
+
+    color: #9da8b2;
+
+    font-weight: 500;
+}
+
+.status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: #b9c2ca;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+}
+
+.statusDot {
+
+    width: 8px;
+
+    height: 8px;
+
+    background: #72c48a;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 8px #72c48a;
+}
+
+
+/* =========================================================
+   SCREEN SYSTEM
+========================================================= */
+
+.screenContainer {
+
+    flex: 1;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.screen {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: none;
+
+    overflow: hidden;
+
+    padding:
+        35px 25px;
+}
+
+.screen.active {
+
+    display: flex;
+
+    animation:
+        screenIn .25s ease-out;
+}
+
+@keyframes screenIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateX(20px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateX(0);
+
+    }
+
+}
+
+
+/* =========================================================
+   HOME SCREEN
+========================================================= */
+
+.homeScreen {
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.homeBox {
+
+    width: min(1000px, 95%);
+
+    max-height: 90%;
+
+    background: white;
+
+    border:
+        5px solid #17202a;
+
+    box-shadow:
+        12px 12px 0 #17202a;
+
+    padding:
+        50px 45px;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.homeBox::before {
+
+    content: "M";
+
+    position: absolute;
+
+    right: -20px;
+
+    top: -70px;
+
+    font-size: 250px;
+
+    line-height: 1;
+
+    font-weight: 800;
+
+    color: #eef1f4;
+
+    pointer-events: none;
+}
+
+.homeContent {
+
+    position: relative;
+
+    z-index: 1;
+
+    text-align: center;
+}
+
+.fileTag {
+
+    display: inline-block;
+
+    background: #17202a;
+
+    color: white;
+
+    padding:
+        8px 13px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 18px;
+}
+
+.homeTitle {
+
+    margin: 0;
+
+    font-size:
+        clamp(50px, 9vw, 90px);
+
+    line-height: .95;
+
+    letter-spacing: 3px;
+
+    font-weight: 800;
+}
+
+.homeSubtitle {
+
+    max-width: 650px;
+
+    margin:
+        20px auto 0;
+
+    color: #5b6671;
+
+    font-size: 15px;
+
+    line-height: 1.8;
+}
+
+.metaRow {
+
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+
+    margin-top: 25px;
+}
+
+.meta {
+
+    background: #f1f4f6;
+
+    border:
+        2px solid #b1bac3;
+
+    padding:
+        8px 11px;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: .5px;
+}
+
+
+/* =========================================================
+   MAIN MENU
+========================================================= */
+
+.mainMenu {
+
+    margin-top: 35px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 10px;
+}
+
+.menuButton {
+
+    border:
+        3px solid #17202a;
+
+    background: #f4f6f8;
+
+    color: #17202a;
+
+    padding:
+        17px 9px;
+
+    min-height: 75px;
+
+    font-family: inherit;
+
+    cursor: pointer;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: .3px;
+
+    transition:
+        .15s;
+
+    box-shadow:
+        4px 4px 0 #aeb7c0;
+}
+
+.menuButton:hover {
+
+    background: #17202a;
+
+    color: white;
+
+    transform:
+        translate(-2px, -2px);
+
+    box-shadow:
+        6px 6px 0 #89949f;
+}
+
+.menuNumber {
+
+    display: block;
+
+    color: #87929d;
+
+    font-size: 9px;
+
+    margin-bottom: 6px;
+}
+
+.menuButton:hover .menuNumber {
+
+    color: #cbd3da;
+}
+
+
+/* =========================================================
+   CONTENT SCREENS
+========================================================= */
+
+.contentScreen {
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.contentBox {
+
+    width: min(1000px, 95%);
+
+    max-height: 92%;
+
+    background: white;
+
+    border:
+        5px solid #17202a;
+
+    box-shadow:
+        10px 10px 0 #17202a;
+
+    padding:
+        38px 42px;
+
+    overflow-y: auto;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        #9ba5ae
+        #edf0f2;
+}
+
+.contentHeader {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 30px;
+}
+
+.sectionTag {
+
+    display: inline-block;
+
+    background: #17202a;
+
+    color: white;
+
+    padding:
+        7px 11px;
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 10px;
+}
+
+.sectionTitle {
+
+    margin: 0;
+
+    font-size:
+        clamp(30px, 5vw, 50px);
+
+    line-height: 1.05;
+
+    letter-spacing: 1px;
+
+    font-weight: 750;
+}
+
+.sectionDescription {
+
+    max-width: 700px;
+
+    margin:
+        12px 0 0;
+
+    color: #64707b;
+
+    line-height: 1.7;
+
+    font-size: 13px;
+}
+
+.backButton {
+
+    flex-shrink: 0;
+
+    background: #17202a;
+
+    color: white;
+
+    border:
+        3px solid #17202a;
+
+    padding:
+        11px 15px;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .15s;
+}
+
+.backButton:hover {
+
+    background: white;
+
+    color: #17202a;
+
+}
+
+
+/* =========================================================
+   STORY
+========================================================= */
+
+.storyGrid {
+
+    display: grid;
+
+    grid-template-columns:
+        .65fr
+        1.35fr;
+
+    gap: 20px;
+}
+
+.storyNumber {
+
+    background: #17202a;
+
+    color: white;
+
+    padding: 30px;
+
+    border:
+        4px solid #17202a;
+
+    min-height: 280px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+}
+
+.storyNumberBig {
+
+    font-size: 80px;
+
+    font-weight: 800;
+
+    line-height: .9;
+
+    color: #dce2e7;
+}
+
+.storyNumberText {
+
+    color: #bdc6ce;
+
+    font-size: 10px;
+
+    line-height: 1.8;
+}
+
+.storyCard {
+
+    border:
+        4px solid #17202a;
+
+    padding: 30px;
+
+    background: #fff;
+
+    box-shadow:
+        6px 6px 0 #aeb7c0;
+}
+
+.storyCard h3 {
+
+    margin:
+        0 0 18px;
+
+    font-size: 24px;
+}
+
+.storyCard p {
+
+    color: #505b66;
+
+    font-size: 13px;
+
+    line-height: 1.9;
+
+    margin:
+        0 0 15px;
+}
+
+.storyCard p:last-child {
+
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   DEALERSHIP
+========================================================= */
+
+.dealerGrid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 15px;
+}
+
+.dealerCard {
+
+    border:
+        3px solid #17202a;
+
+    background: #f7f8f9;
+
+    padding: 25px;
+
+    transition: .15s;
+}
+
+.dealerCard:hover {
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        5px 5px 0 #aeb7c0;
+}
+
+.dealerLabel {
+
+    display: inline-block;
+
+    background: #17202a;
+
+    color: white;
+
+    padding:
+        5px 8px;
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 12px;
+}
+
+.dealerCard h3 {
+
+    margin:
+        0 0 10px;
+
+    font-size: 19px;
+}
+
+.dealerCard p {
+
+    margin: 0;
+
+    color: #596570;
+
+    font-size: 12px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   THANK YOU
+========================================================= */
+
+.thankCard {
+
+    border:
+        4px solid #17202a;
+
+    padding:
+        35px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #f1f4f6
+        );
+
+    box-shadow:
+        7px 7px 0 #17202a;
+}
+
+.thankCard h3 {
+
+    margin:
+        0 0 20px;
+
+    font-size:
+        clamp(25px, 5vw, 36px);
+}
+
+.thankCard p {
+
+    max-width: 800px;
+
+    color: #505c67;
+
+    font-size: 13px;
+
+    line-height: 1.9;
+
+    margin:
+        0 0 17px;
+}
+
+.signature {
+
+    margin-top: 25px;
+
+    font-weight: 700;
+
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   ABOUT FILE
+========================================================= */
+
+.aboutGrid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 15px;
+}
+
+.aboutCard {
+
+    border:
+        3px solid #17202a;
+
+    padding: 25px;
+
+    background: #f5f7f9;
+}
+
+.aboutCard h3 {
+
+    margin:
+        0 0 10px;
+
+    font-size: 17px;
+}
+
+.aboutCard p {
+
+    margin: 0;
+
+    color: #5d6873;
+
+    font-size: 12px;
+
+    line-height: 1.8;
+}
+
+.fileInfo {
+
+    margin-top: 20px;
+
+    border:
+        3px solid #17202a;
+
+    background: #17202a;
+
+    color: white;
+
+    padding: 20px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+}
+
+.infoItem span {
+
+    display: block;
+}
+
+.infoLabel {
+
+    color: #8996a1;
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 5px;
+}
+
+.infoValue {
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   INTERVIEW
+========================================================= */
+
+.interviewBox {
+
+    background:
+        linear-gradient(
+            135deg,
+            #17202a,
+            #35414d
+        );
+
+    color: white;
+
+    border:
+        4px solid #17202a;
+
+    box-shadow:
+        8px 8px 0 #89949f;
+
+    padding:
+        40px 35px;
+
+    text-align: center;
+}
+
+.interviewIcon {
+
+    font-size: 35px;
+
+    margin-bottom: 10px;
+}
+
+.interviewTag {
+
+    color: #b8c2cb;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+}
+
+.interviewBox h2 {
+
+    margin:
+        12px 0;
+
+    font-size:
+        clamp(28px, 5vw, 45px);
+}
+
+.interviewBox p {
+
+    max-width: 600px;
+
+    margin:
+        0 auto 20px;
+
+    color: #c5cdd4;
+
+    font-size: 13px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   MARC PHOTO
+========================================================= */
+
+.marcPhoto {
+
+    display: block;
+
+    width: min(600px, 100%);
+
+    max-height: 400px;
+
+    object-fit: cover;
+
+    margin:
+        25px auto;
+
+    border:
+        4px solid white;
+
+    box-shadow:
+        6px 6px 0 #89949f;
+}
+
+
+/* =========================================================
+   INTERVIEW BUTTON
+========================================================= */
+
+.interviewButton {
+
+    display: inline-block;
+
+    margin-top: 5px;
+
+    padding:
+        14px 23px;
+
+    background: white;
+
+    color: #17202a;
+
+    text-decoration: none;
+
+    border:
+        4px solid white;
+
+    box-shadow:
+        5px 5px 0 #89949f;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    transition: .15s;
+}
+
+.interviewButton:hover {
+
+    transform:
+        translate(-3px, -3px);
+
+    box-shadow:
+        8px 8px 0 #89949f;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 850px) {
+
+    body {
+
+        overflow: hidden;
+    }
+
+    .topBar {
+
+        height: 58px;
+
+        padding:
+            0 18px;
+    }
+
+    .logo {
+
+        font-size: 12px;
+    }
+
+    .status {
+
+        font-size: 8px;
+    }
+
+    .screen {
+
+        padding:
+            20px 15px;
+    }
+
+    .homeBox {
+
+        width: 100%;
+
+        padding:
+            35px 20px;
+
+        box-shadow:
+            7px 7px 0 #17202a;
+    }
+
+    .homeTitle {
+
+        font-size: 48px;
+    }
+
+    .homeSubtitle {
+
+        font-size: 12px;
+    }
+
+    .mainMenu {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 9px;
+    }
+
+    .menuButton {
+
+        min-height: 70px;
+
+        font-size: 9px;
+    }
+
+    .contentBox {
+
+        width: 100%;
+
+        max-height: 94%;
+
+        padding:
+            25px 20px;
+
+        box-shadow:
+            7px 7px 0 #17202a;
+    }
+
+    .contentHeader {
+
+        flex-direction: column;
+    }
+
+    .backButton {
+
+        width: 100%;
+    }
+
+    .storyGrid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .storyNumber {
+
+        min-height: 150px;
+    }
+
+    .storyNumberBig {
+
+        font-size: 60px;
+    }
+
+    .dealerGrid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .aboutGrid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .fileInfo {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .marcPhoto {
+
+        max-height: 300px;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .topBarInner {
+
+        gap: 8px;
+    }
+
+    .logo span {
+
+        display: none;
+    }
+
+    .status {
+
+        font-size: 7px;
+    }
+
+    .homeTitle {
+
+        font-size: 40px;
+    }
+
+    .homeBox::before {
+
+        font-size: 150px;
+
+        top: -25px;
+    }
+
+    .metaRow {
+
+        flex-direction: column;
+    }
+
+    .meta {
+
+        width: 100%;
+    }
+
+    .mainMenu {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .menuButton {
+
+        min-height: 58px;
+
+        padding:
+            12px;
+    }
+
+    .contentBox {
+
+        padding:
+            22px 17px;
+    }
+
+    .sectionTitle {
+
+        font-size: 31px;
+    }
+
+    .storyCard {
+
+        padding: 22px;
+    }
+
+    .storyCard h3 {
+
+        font-size: 20px;
+    }
+
+    .thankCard {
+
+        padding:
+            25px 20px;
+    }
+
+    .interviewBox {
+
+        padding:
+            35px 20px;
+    }
+
+}
+
+
+/* =========================================================
+   TOUCH DEVICES
+========================================================= */
+
+@media (hover: none) {
+
+    .menuButton:hover {
+
+        background: #f4f6f8;
+
+        color: #17202a;
+
+        transform: none;
+
+        box-shadow:
+            4px 4px 0 #aeb7c0;
+    }
+
+    .dealerCard:hover {
+
+        transform: none;
+
+        box-shadow: none;
+    }
+
+    .interviewButton:hover {
+
+        transform: none;
+
+        box-shadow:
+            5px 5px 0 #89949f;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body id="top">
+
+
+<!-- =========================================================
+     AUDIO
+========================================================= -->
+
+<audio
+    id="backgroundMusic"
+    src="assets/pro.mp3"
+    loop
+    preload="auto">
+</audio>
+
+<audio
+    id="clickSound"
+    src="assets/moo.mp3"
+    preload="auto">
+</audio>
+
+
+<div class="app">
+
+
+<!-- =========================================================
+     TOP BAR
+========================================================= -->
+
+<nav class="topBar">
+
+    <div class="topBarInner">
+
+        <div class="logo">
+
+            MARC
+            <span>// CO-OP FILE</span>
+
+        </div>
+
+        <div class="status">
+
+            <div class="statusDot"></div>
+
+            FILE STATUS: COMPLETE
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<div class="screenContainer">
+
+
+<!-- =========================================================
+     HOME SCREEN
+========================================================= -->
+
+<section
+    class="screen homeScreen active"
+    id="home">
+
+    <div class="homeBox">
+
+        <div class="homeContent">
+
+            <div class="fileTag">
+
+                SURGENOR HYUNDAI • 2026
+
+            </div>
+
+
+            <h1 class="homeTitle">
+
+                THANK YOU
+
+            </h1>
+
+
+            <p class="homeSubtitle">
+
+                A small digital thank-you file for
+                the person who helped get my
+                co-op journey started.
+
+            </p>
+
+
+            <div class="metaRow">
+
+                <div class="meta">
+                    ROLE: SALES
+                </div>
+
+                <div class="meta">
+                    LOCATION: SURGENOR HYUNDAI
+                </div>
+
+                <div class="meta">
+                    FILE: MARC-2026
+                </div>
+
+            </div>
+
+
+            <!-- MAIN MENU -->
+
+            <div class="mainMenu">
+
+
+                <button
+                    class="menuButton"
+                    onclick="openScreen('story')">
+
+                    <span class="menuNumber">
+                        01
+                    </span>
+
+                    HOW IT STARTED
+
+                </button>
+
+
+                <button
+                    class="menuButton"
+                    onclick="openScreen('dealership')">
+
+                    <span class="menuNumber">
+                        02
+                    </span>
+
+                    THE DEALERSHIP
+
+                </button>
+
+
+                <button
+                    class="menuButton"
+                    onclick="openScreen('thanks')">
+
+                    <span class="menuNumber">
+                        03
+                    </span>
+
+                    THANK YOU
+
+                </button>
+
+
+                <button
+                    class="menuButton"
+                    onclick="openScreen('about')">
+
+                    <span class="menuNumber">
+                        04
+                    </span>
+
+                    ABOUT THIS FILE
+
+                </button>
+
+
+                <button
+                    class="menuButton"
+                    onclick="openScreen('interview')">
+
+                    <span class="menuNumber">
+                        05
+                    </span>
+
+                    INTERVIEW
+
+                </button>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     HOW IT STARTED
+========================================================= -->
+
+<section
+    class="screen contentScreen"
+    id="story">
+
+    <div class="contentBox">
+
+
+        <div class="contentHeader">
+
+            <div>
+
+                <div class="sectionTag">
+                    FILE 01 // ORIGIN
+                </div>
+
+                <h2 class="sectionTitle">
+                    HOW IT STARTED
+                </h2>
+
+                <p class="sectionDescription">
+
+                    Before I even stepped into the dealership
+                    as a co-op student, you had already played
+                    an important part in making it happen.
+
+                </p>
+
+            </div>
+
+
+            <button
+                class="backButton"
+                onclick="goHome()">
+
+                ← MAIN FILE
+
+            </button>
+
+        </div>
+
+
+        <div class="storyGrid">
+
+
+            <div class="storyNumber">
+
+                <div class="storyNumberBig">
+                    01
+                </div>
+
+                <div class="storyNumberText">
+
+                    THE STARTING POINT:
+
+                    <br><br>
+
+                    Mine started with a contact
+                    and an opportunity.
+
+                </div>
+
+            </div>
+
+
+            <div class="storyCard">
+
+                <h3>
+                    The connection that started it.
+                </h3>
+
+                <p>
+
+                    I honestly don't think I ever properly
+                    thanked you for this, but you were
+                    essentially the person who helped get
+                    my co-op started.
+
+                </p>
+
+                <p>
+
+                    You gave me Jayce's contact information,
+                    which gave me a way to actually get
+                    connected with the dealership and pursue
+                    the opportunity to become a co-op student.
+
+                </p>
+
+                <p>
+
+                    From there, everything else followed.
+                    I eventually got to join Surgenor Hyundai,
+                    meet everyone, work around the dealership,
+                    and experience an actual automotive
+                    workplace firsthand.
+
+                </p>
+
+                <p>
+
+                    So even though we didn't work together
+                    directly all that much, I wanted to make
+                    sure you knew that you were part of the
+                    reason I got to have this experience
+                    in the first place. (Thank you for selling
+                    cars to my parents lol!)
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     DEALERSHIP
+========================================================= -->
+
+<section
+    class="screen contentScreen"
+    id="dealership">
+
+    <div class="contentBox">
+
+
+        <div class="contentHeader">
+
+            <div>
+
+                <div class="sectionTag">
+                    FILE 02 // EXPERIENCE
+                </div>
+
+                <h2 class="sectionTitle">
+                    THE DEALERSHIP
+                </h2>
+
+                <p class="sectionDescription">
+
+                    One of the coolest parts of my co-op
+                    was seeing how many different people
+                    and roles are involved in making a
+                    dealership work.
+
+                </p>
+
+            </div>
+
+
+            <button
+                class="backButton"
+                onclick="goHome()">
+
+                ← MAIN FILE
+
+            </button>
+
+        </div>
+
+
+        <div class="dealerGrid">
+
+
+            <div class="dealerCard">
+
+                <div class="dealerLabel">
+                    SALES
+                </div>
+
+                <h3>
+                    Seeing another side of automotive.
+                </h3>
+
+                <p>
+
+                    Most of my hands-on experience was
+                    around the service side, but being able
+                    to see the sales side gave me another
+                    perspective on how a dealership operates.
+
+                </p>
+
+            </div>
+
+
+            <div class="dealerCard">
+
+                <div class="dealerLabel">
+                    TEAMWORK
+                </div>
+
+                <h3>
+                    Everyone has a role.
+                </h3>
+
+                <p>
+
+                    Technicians, service, warranty, valet,
+                    sales, and everyone behind the scenes
+                    all contribute to keeping the dealership
+                    moving.
+
+                </p>
+
+            </div>
+
+
+            <div class="dealerCard">
+
+                <div class="dealerLabel">
+                    EXPERIENCE
+                </div>
+
+                <h3>
+                    Learning outside the classroom.
+                </h3>
+
+                <p>
+
+                    Being able to see a real dealership
+                    operating every day taught me things
+                    that I couldn't have learned just by
+                    sitting in a classroom.
+
+                </p>
+
+            </div>
+
+
+            <div class="dealerCard">
+
+                <div class="dealerLabel">
+                    PERSPECTIVE
+                </div>
+
+                <h3>
+                    Understanding the bigger picture.
+                </h3>
+
+                <p>
+
+                    The experience helped me understand
+                    how all the different departments
+                    connect and work together toward
+                    the same goal.
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     THANK YOU
+========================================================= -->
+
+<section
+    class="screen contentScreen"
+    id="thanks">
+
+    <div class="contentBox">
+
+
+        <div class="contentHeader">
+
+            <div>
+
+                <div class="sectionTag">
+                    FILE 03 // MESSAGE
+                </div>
+
+                <h2 class="sectionTitle">
+                    THANK YOU
+                </h2>
+
+                <p class="sectionDescription">
+
+                    I want to express my gratitude.
+
+                </p>
+
+            </div>
+
+
+            <button
+                class="backButton"
+                onclick="goHome()">
+
+                ← MAIN FILE
+
+            </button>
+
+        </div>
+
+
+        <div class="thankCard">
+
+            <h3>
+                You helped start my journey.
+            </h3>
+
+
+            <p>
+
+                I wanted to genuinely thank you
+                for helping me get into co-op and giving
+                me the opportunity to become a student
+                at Surgenor Hyundai.
+
+            </p>
+
+
+            <p>
+
+                Even though I didn't get to work directly
+                with you as much as I did with some of
+                the other people at the dealership, I still
+                wanted to recognize the part you played
+                in getting me there.
+
+            </p>
+
+
+            <p>
+
+                Giving me Jayce's contact
+                might have seemed like a small thing,
+                but it ended up leading to an entire
+                experience that I'll remember for a long
+                time.
+
+            </p>
+
+
+            <p>
+
+                I got to learn about the automotive
+                industry, work with different people,
+                experience different departments, and
+                gain a much better idea of what a real
+                workplace is like.
+
+            </p>
+
+
+            <p>
+
+                Thank you for helping
+                open that door for me. I really
+                appreciate it.
+
+            </p>
+
+
+            <div class="signature">
+
+                — Vivian :))
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ABOUT THIS FILE
+========================================================= -->
+
+<section
+    class="screen contentScreen"
+    id="about">
+
+    <div class="contentBox">
+
+
+        <div class="contentHeader">
+
+            <div>
+
+                <div class="sectionTag">
+                    FILE 04 // INFORMATION
+                </div>
+
+                <h2 class="sectionTitle">
+                    ABOUT THIS FILE
+                </h2>
+
+                <p class="sectionDescription">
+
+                    A quick explanation of what you're
+                    looking at because I just
+                    couldn't make a normal thank-you card.
+
+                </p>
+
+            </div>
+
+
+            <button
+                class="backButton"
+                onclick="goHome()">
+
+                ← MAIN FILE
+
+            </button>
+
+        </div>
+
+
+        <div class="aboutGrid">
+
+
+            <div class="aboutCard">
+
+                <h3>
+                    Why I made this
+                </h3>
+
+                <p>
+
+                    I wanted to make something a little
+                    more memorable than a normal card.
+                    Since I was already working on
+                    digital projects, I thought making
+                    an interactive little something would be
+                    a fun way to say thank you.
+
+                </p>
+
+            </div>
+
+
+            <div class="aboutCard">
+
+                <h3>
+                    Why you're included
+                </h3>
+
+                <p>
+
+                    You were one of the first people
+                    involved in making my co-op
+                    opportunity possible. Without the
+                    connection you gave me, my experience
+                    could have looked completely different.
+
+                </p>
+
+            </div>
+
+
+            <div class="aboutCard">
+
+                <h3>
+                    What's inside
+                </h3>
+
+                <p>
+
+                    The file contains a few sections
+                    about how my co-op started, what
+                    I experienced at the dealership,
+                    and a personal thank-you message.
+
+                </p>
+
+            </div>
+
+
+            <div class="aboutCard">
+
+                <h3>
+                    Final status
+                </h3>
+
+                <p>
+
+                    Co-op completed.
+                    Memories acquired.
+                    Experience gained.
+                    Thank you successfully delivered.
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="fileInfo">
+
+
+            <div class="infoItem">
+
+                <span class="infoLabel">
+                    FILE ID
+                </span>
+
+                <span class="infoValue">
+                    MARC-2026
+                </span>
+
+            </div>
+
+
+            <div class="infoItem">
+
+                <span class="infoLabel">
+                    CREATED BY
+                </span>
+
+                <span class="infoValue">
+                    VIVIAN
+                </span>
+
+            </div>
+
+
+            <div class="infoItem">
+
+                <span class="infoLabel">
+                    PURPOSE
+                </span>
+
+                <span class="infoValue">
+                    THANK YOU
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     INTERVIEW
+========================================================= -->
+
+<section
+    class="screen contentScreen"
+    id="interview">
+
+    <div class="contentBox">
+
+
+        <div class="contentHeader">
+
+            <div>
+
+                <div class="sectionTag">
+                    FILE 05 // EXTRA CONTENT
+                </div>
+
+                <h2 class="sectionTitle">
+                    INTERVIEW
+                </h2>
+
+                <p class="sectionDescription">
+
+                    A little extra from my co-op
+                    experience.
+
+                </p>
+
+            </div>
+
+
+            <button
+                class="backButton"
+                onclick="goHome()">
+
+                ← MAIN FILE
+
+            </button>
+
+        </div>
+
+
+        <div class="interviewBox">
+
+            <div class="interviewIcon">
+                O_O
+            </div>
+
+            <div class="interviewTag">
+                CO-OP INTERVIEW
+            </div>
+
+            <h2>
+                WANT TO SEE THE INTERVIEW?
+            </h2>
+
+            <p>
+
+                I also made an interview during my
+                co-op if you'd like to check it out
+                if you haven't already!
+
+            </p>
+
+
+            <!-- MARC PHOTO -->
+
+            <img
+                src="assets/marc.jpg"
+                alt="Vivian and Marc"
+                class="marcPhoto"
+            >
+
+
+            <a
+                href="https://youtu.be/bsMzjwhk0HI?si=rfooF-tUX9K9bKXU"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="interviewButton">
+
+                WATCH THE INTERVIEW →
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+/* =========================================================
+   AUDIO
+========================================================= */
+
+const backgroundMusic =
+    document.getElementById("backgroundMusic");
+
+const clickSound =
+    document.getElementById("clickSound");
+
+
+/* =========================================================
+   PLAY CLICK SOUND
+========================================================= */
+
+function playClickSound() {
+
+    clickSound.pause();
+
+    clickSound.currentTime = 0;
+
+    clickSound.play().catch(
+        function(error) {
+
+            console.log(
+                "Click sound could not play:",
+                error
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   START BACKGROUND MUSIC
+========================================================= */
+
+function startMusic() {
+
+    if (backgroundMusic.paused) {
+
+        backgroundMusic.volume = 0.35;
+
+        backgroundMusic.play().catch(
+            function(error) {
+
+                console.log(
+                    "Background music could not play:",
+                    error
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   STOP ALL AUDIO
+========================================================= */
+
+function stopAllAudio() {
+
+    backgroundMusic.pause();
+
+    backgroundMusic.currentTime = 0;
+
+    clickSound.pause();
+
+    clickSound.currentTime = 0;
+
+}
+
+
+/* =========================================================
+   SCREEN NAVIGATION
+========================================================= */
+
+function openScreen(screenID) {
+
+    playClickSound();
+
+    /*
+        Opening the Interview section DOES NOT
+        stop the background music anymore.
+    */
+
+    if (screenID !== "interview") {
+
+        startMusic();
+
+    }
+
+
+    const screens =
+        document.querySelectorAll(".screen");
+
+
+    screens.forEach(
+        function(screen) {
+
+            screen.classList.remove("active");
+
+        }
+    );
+
+
+    const target =
+        document.getElementById(screenID);
+
+
+    if (target) {
+
+        target.classList.add("active");
+
+    }
+
+
+    console.log(
+        "Opening file section:",
+        screenID
+    );
+
+}
+
+
+/* =========================================================
+   RETURN TO HOME
+========================================================= */
+
+function goHome() {
+
+    playClickSound();
+
+    startMusic();
+
+    openScreenWithoutDoubleSound("home");
+
+}
+
+
+/* =========================================================
+   INTERNAL SCREEN CHANGE
+========================================================= */
+
+function openScreenWithoutDoubleSound(screenID) {
+
+    const screens =
+        document.querySelectorAll(".screen");
+
+
+    screens.forEach(
+        function(screen) {
+
+            screen.classList.remove("active");
+
+        }
+    );
+
+
+    const target =
+        document.getElementById(screenID);
+
+
+    if (target) {
+
+        target.classList.add("active");
+
+    }
+
+}
+
+
+/* =========================================================
+   BACK BUTTONS
+========================================================= */
+
+document
+    .querySelectorAll(".backButton")
+    .forEach(
+        function(button) {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    console.log(
+                        "Returning to main file."
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   INTERVIEW LINK
+========================================================= */
+
+const interviewButton =
+    document.querySelector(".interviewButton");
+
+
+if (interviewButton) {
+
+    interviewButton.addEventListener(
+        "click",
+        function() {
+
+            /*
+                Music ONLY stops when the actual
+                WATCH THE INTERVIEW button is clicked.
+            */
+
+            backgroundMusic.pause();
+
+            backgroundMusic.currentTime = 0;
+
+            console.log(
+                "Background music stopped. Opening interview."
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   AUDIO ERROR CHECK
+========================================================= */
+
+backgroundMusic.addEventListener(
+    "error",
+    function() {
+
+        console.error(
+            "ERROR: assets/pro.mp3 could not be loaded."
+        );
+
+    }
+);
+
+
+clickSound.addEventListener(
+    "error",
+    function() {
+
+        console.error(
+            "ERROR: assets/moo.mp3 could not be loaded."
+        );
+
+    }
+);
+
+
+/* =========================================================
+   PAGE LOADED
+========================================================= */
+
+console.log(
+    "MARC // CO-OP FILE LOADED"
+);
+
+console.log(
+    "Background music:",
+    backgroundMusic.src
+);
+
+console.log(
+    "Click sound:",
+    clickSound.src
+);
+
+</script>
+
+
+</body>
+
+</html>
